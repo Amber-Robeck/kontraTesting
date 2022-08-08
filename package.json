@@ -1,0 +1,22 @@
+{
+  "name": "kontratesting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amber-Robeck/kontraTesting.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Amber-Robeck/kontraTesting/issues"
+  },
+  "homepage": "https://github.com/Amber-Robeck/kontraTesting#readme",
+  "dependencies": {
+    "kontra": "^8.0.0"
+  }
+}
