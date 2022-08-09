@@ -144,10 +144,55 @@ let player = Sprite({
 
 obstacleArray.push(player);
 
+// function collision(ob1x, ob1y, ob1radius, ob2x, ob2y, ob2radius) {
+//     let xDiff = ob1x - ob2x;
+//     let yDiff = ob1y - ob2y;
+//     let distance = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+//     return distance < ob1radius + ob2radius;
+// }
+
+// http://www.gamedevelopment.blog/collision-detection-circles-rectangles-and-polygons/
+//added 20 to get the ojects closer before disappearing
+function newCollision(ob1, ob2) {
+    let xDiff = Math.abs(ob1.x - ob2.x);
+    let yDiff = Math.abs(ob1.y - ob2.y);
+    let distance = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+    return distance + 20 < ob1.radius + ob2.radius;
+}
+
 
 let loop = GameLoop({
     update() {
         let canvas = kontra.getCanvas();
+
+        //collision detection for player
+        for (let i = 0; i < obstacleArray.length; i++) {
+            //if obstacle loop
+            if (obstacleArray[i].type === "obstacle") {
+                for (let j = 0; j < obstacleArray.length; j++) {
+                    if (obstacleArray[j].type !== "obstacle") {
+                        let obstacle = obstacleArray[i];
+                        let player = obstacleArray[j];
+                        let padding = 10;
+
+                        // if (collision(obstacle.x, obstacle.y, obstacle.radius, player.x, player.y, player.radius)) {
+                        if (newCollision(obstacle, player)) {
+                            // console.log("collision");
+                            obstacle.ttl = 0;
+                            player.ttl = 0;
+                        }
+
+                        // if (obstacle.x + obstacle.radius - padding > player.x - player.radius - padding &&
+                        //     obstacle.x - obstacle.radius < player.x + player.radius &&
+                        //     obstacle.y + obstacle.radius > player.y - player.radius &&
+                        //     obstacle.y - obstacle.radius < player.y + player.radius) {
+                        //     obstacle.ttl = 0;
+                        //     player.ttl = 0;
+                        // }
+                    }
+                }
+            }
+        }
 
         //filter out !isAlive obstacles
         obstacleArray = obstacleArray.filter((obstacle) => obstacle.isAlive());
