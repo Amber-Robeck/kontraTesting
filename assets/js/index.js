@@ -63,6 +63,40 @@ function makeObstacle() {
 for (let i = 0; i < 10; i++) {
     obstacleArray.push(makeObstacle());
 };
+
+function makeBullet(x, y) {
+    return Sprite({
+        type: "bullet",
+        x: x,
+        y: y,
+        dx: 0,
+        dy: -5,
+        radius: 5,
+        render() {
+            this.context.strokeStyle = "white";
+            this.context.beginPath();
+            this.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            this.context.stroke();
+        }
+    });
+    // return Sprite({
+    //     type: "bullet",
+    //     x: x,
+    //     y: y,
+    //     dx: player.dx,
+    //     dy: player.dy + 10,
+    //     //time to live
+    //     ttl: 25,
+    //     width: 1,
+    //     height: 1,
+    //     color: "white"
+    //     // render() {
+    //     //     this.context.fillStyle = this.color;
+    //     //     this.context.fillRect(this.x, this.y, this.width, this.height);
+    //     // }
+    // });
+};
+
 let player = Sprite({
     type: "player",
     x: 150,
@@ -85,6 +119,10 @@ let player = Sprite({
         }
         if (keyPressed("arrowdown") && this.y + this.radius < canvas.height / 2) {
             this.y += 2;
+        }
+        if (keyPressed("space")) {
+            let bullet = makeBullet(this.x, this.y);
+            obstacleArray.push(bullet);
         }
         this.advance();
     },
