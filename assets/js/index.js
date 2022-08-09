@@ -62,7 +62,7 @@ function makeObstacle() {
 };
 
 //push ten obstacles to the array
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 20; i++) {
     obstacleArray.push(makeObstacle());
 };
 
@@ -164,7 +164,10 @@ function newCollision(ob1, ob2) {
 let loop = GameLoop({
     update() {
         let canvas = kontra.getCanvas();
-
+        // console.log(obstacleArray.length);
+        // if (obstacleArray.length === 1) {
+        //     window.alert("You Win!");
+        // }
         //collision detection for player
         for (let i = 0; i < obstacleArray.length; i++) {
             //if obstacle loop
@@ -173,13 +176,14 @@ let loop = GameLoop({
                     if (obstacleArray[j].type !== "obstacle") {
                         let obstacle = obstacleArray[i];
                         let player = obstacleArray[j];
-                        let padding = 10;
+                        // let padding = 10;
 
                         // if (collision(obstacle.x, obstacle.y, obstacle.radius, player.x, player.y, player.radius)) {
                         if (newCollision(obstacle, player)) {
                             // console.log("collision");
                             obstacle.ttl = 0;
                             player.ttl = 0;
+                            break;
                         }
 
                         // if (obstacle.x + obstacle.radius - padding > player.x - player.radius - padding &&
