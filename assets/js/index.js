@@ -1,6 +1,7 @@
-let { init, Sprite, GameLoop } = kontra
+let { init, Sprite, GameLoop, initKeys, keyPressed } = kontra
 
 let { canvas } = init();
+initKeys();
 
 // let sprite = Sprite({
 //     x: 100,        // starting x,y position of the sprite
@@ -62,20 +63,42 @@ function makeObstacle() {
 for (let i = 0; i < 10; i++) {
     obstacleArray.push(makeObstacle());
 };
-// let obstacles = Sprite({
-//     type: "obstacle",
-//     x: 50,
-//     y: 50,
-//     dx: Math.random() * 4 - 2,
-//     dy: Math.random() * 4 - 2,
-//     radius: 30,
-//     render() {
-//         this.context.strokeStyle = "white";
-//         this.context.beginPath();
-//         this.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-//         this.context.stroke();
-//     },
-// });
+let player = Sprite({
+    type: "player",
+    x: 150,
+    y: 250,
+    radius: 20,
+    width: 10,
+    update() {
+        if (keyPressed("arrowleft") && this.x - this.radius > 0) {
+            this.x -= 2;
+        }
+        if (keyPressed("arrowright") && this.x + this.radius < canvas.width / 2) {
+            this.x += 2;
+            //why is this.x 300?
+            // console.log(this.x);
+            // console.log(this.radius);
+            // console.log(canvas.width);
+        }
+        if (keyPressed("arrowup") && this.y - this.radius > 0) {
+            this.y -= 2;
+        }
+        if (keyPressed("arrowdown") && this.y + this.radius < canvas.height / 2) {
+            this.y += 2;
+        }
+        this.advance();
+    },
+    render() {
+        this.context.strokeStyle = "white";
+        this.context.beginPath();
+        this.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        this.context.stroke();
+    }
+});
+
+obstacleArray.push(player);
+
+
 let loop = GameLoop({
     update() {
         let canvas = kontra.getCanvas();
