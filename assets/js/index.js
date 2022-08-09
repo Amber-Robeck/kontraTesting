@@ -30,6 +30,8 @@ initKeys();
 // loop.start();    // start the game
 
 let obstacleArray = [];
+let allowShoot = true;
+let timeDelay = 400;
 
 //create random obstacles
 function makeObstacle() {
@@ -68,10 +70,12 @@ function makeBullet(x, y) {
     return Sprite({
         type: "bullet",
         x: x,
-        y: y,
+        y: y - 10,
         dx: 0,
-        dy: -5,
+        dy: -6,
         radius: 5,
+        //time to live
+        ttl: 50,
         render() {
             this.context.strokeStyle = "white";
             this.context.beginPath();
@@ -120,7 +124,11 @@ let player = Sprite({
         if (keyPressed("arrowdown") && this.y + this.radius < canvas.height / 2) {
             this.y += 2;
         }
-        if (keyPressed("space")) {
+        if (keyPressed("space") && allowShoot) {
+            allowShoot = false;
+            setTimeout(() => {
+                allowShoot = true;
+            }, timeDelay);
             let bullet = makeBullet(this.x, this.y);
             obstacleArray.push(bullet);
         }
@@ -140,6 +148,9 @@ obstacleArray.push(player);
 let loop = GameLoop({
     update() {
         let canvas = kontra.getCanvas();
+
+        //filter out !isAlive obstacles
+        obstacleArray = obstacleArray.filter((obstacle) => obstacle.isAlive());
         //loop through the obstacles array and update each obstacle
         obstacleArray.forEach(obstacle => {
             obstacle.update();
