@@ -28,44 +28,83 @@ let { canvas } = init();
 
 // loop.start();    // start the game
 
+let obstacleArray = [];
 
-let obstacles = Sprite({
-    type: "obstacle",
-    x: 50,
-    y: 50,
-    dx: Math.random() * 4 - 2,
-    dy: Math.random() * 4 - 2,
-    radius: 30,
-    render() {
-        this.context.strokeStyle = "white";
-        this.context.beginPath();
-        this.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        this.context.stroke();
-    },
-});
+//create random obstacles
+function makeObstacle() {
+    // let obstacle = Sprite({
+    //     x: canvas.width,
+    //     y: Math.random() * canvas.height,
+    //     width: 20,
+    //     height: 20,
+    //     color: 'red',
+    //     dx: -2
+    // });
+    // obstacleArray.push(obstacle);
+
+    return Sprite({
+        type: "obstacle",
+        x: 50,
+        y: 50,
+        dx: Math.random() * 4 - 2,
+        dy: Math.random() * 4 - 2,
+        radius: 30,
+        render() {
+            this.context.strokeStyle = "white";
+            this.context.beginPath();
+            this.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            this.context.stroke();
+        },
+    });
+};
+
+//push ten obstacles to the array
+for (let i = 0; i < 10; i++) {
+    obstacleArray.push(makeObstacle());
+};
+// let obstacles = Sprite({
+//     type: "obstacle",
+//     x: 50,
+//     y: 50,
+//     dx: Math.random() * 4 - 2,
+//     dy: Math.random() * 4 - 2,
+//     radius: 30,
+//     render() {
+//         this.context.strokeStyle = "white";
+//         this.context.beginPath();
+//         this.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+//         this.context.stroke();
+//     },
+// });
 let loop = GameLoop({
     update() {
         let canvas = kontra.getCanvas();
-        obstacles.update();
-        //if object leaves the left edge
-        if (obstacles.x < 0) {
-            obstacles.x = canvas.width;
-        }
-        //if object leaves the top edge 
-        else if (obstacles.y < 0) {
-            obstacles.y = canvas.height;
-        }
-        //if object leaves the right edge
-        else if (obstacles.x > canvas.width) {
-            obstacles.x = 0;
-        }
-        //if object leaves the bottom edge 
-        else if (obstacles.y > canvas.height) {
-            obstacles.y = 0;
-        }
+        //loop through the obstacles array and update each obstacle
+        obstacleArray.forEach(obstacle => {
+            obstacle.update();
+            //if object leaves the left edge
+            if (obstacle.x < 0) {
+                obstacle.x = canvas.width;
+            }
+            //if object leaves the top edge 
+            else if (obstacle.y < 0) {
+                obstacle.y = canvas.height;
+            }
+            //if object leaves the right edge
+            else if (obstacle.x > canvas.width) {
+                obstacle.x = 0;
+            }
+            //if object leaves the bottom edge 
+            else if (obstacle.y > canvas.height) {
+                obstacle.y = 0;
+            }
+        });
     },
     render() {
-        obstacles.render();
+        //loop through the obstacles array and render each obstacle
+        obstacleArray.forEach(obstacle => {
+            obstacle.render();
+        });
     }
 }).start();
 
