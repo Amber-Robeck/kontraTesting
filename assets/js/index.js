@@ -45,7 +45,24 @@ let obstacles = Sprite({
 });
 let loop = GameLoop({
     update() {
+        let canvas = kontra.getCanvas();
         obstacles.update();
+        //if object leaves the left edge
+        if (obstacles.x < 0) {
+            obstacles.x = canvas.width;
+        }
+        //if object leaves the top edge 
+        else if (obstacles.y < 0) {
+            obstacles.y = canvas.height;
+        }
+        //if object leaves the right edge
+        else if (obstacles.x > canvas.width) {
+            obstacles.x = 0;
+        }
+        //if object leaves the bottom edge 
+        else if (obstacles.y > canvas.height) {
+            obstacles.y = 0;
+        }
     },
     render() {
         obstacles.render();
