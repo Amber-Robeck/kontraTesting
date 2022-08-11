@@ -9,7 +9,7 @@
 
  ## Description
 
-_Welcome to kontraTesting a game testing out using the Kontra library!_ 
+_Welcome to kontraTesting a game testing out using the Kontra library! Currently I have learned how to create an enemy, player and bullet sprite. I have added collision between player and enemy making the sprites disappear upon collision. Along with collision between players bullet and enemy objects. Player is currently able to move any direction within the bounds of the game but only allowed to shoot up._ 
 
 
 ---
